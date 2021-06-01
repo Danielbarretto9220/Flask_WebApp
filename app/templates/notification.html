@@ -1,0 +1,30 @@
+{% extends 'layout.html'%}
+
+{% block body %}
+<div class="jumbotron"style="background-color:#f7f7f7;">
+  <h1>Blood Requests</h1>
+  <hr class="my-4">
+  <table class="table table-striped">
+    <tr>
+      <th>Contact Id</th>
+      <th>Name</th>
+      <th>Blood Group</th>
+      <th>Packets</th>
+      <th>Address</th>
+      <th></th>
+      <th></th>
+    </tr>
+    {% for request in requests %}
+      <tr>
+        <td>{{request.contact_id}}</td>
+        <td>{{request.f_name}}</td>
+        <td>{{request.b_group}}</td>
+        <td>{{request.c_packets}}</td>
+        <td>{{request.address}}</td>
+        <td><a href="notifications/accept" class="btn btn-success">Accept</a></td>
+        <td><a href="notifications/decline" class="btn btn-danger">Decline</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock%}
