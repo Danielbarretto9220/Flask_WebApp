@@ -4,8 +4,8 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators,
 from passlib.hash import sha256_crypt
 import random
 from functools import wraps
-from app.models import RECEPTION, DONOR, BLOOD, BLOODBANK,CONTACT,NOTIFICATIONS
-from app import app, db
+from models import RECEPTION, DONOR, BLOOD, BLOODBANK,CONTACT,NOTIFICATIONS
+from __init__ import app, db
 
 
 @app.route('/')
