@@ -182,10 +182,11 @@ def bloodform():
                 r.total_packets = r.total_packets + int(packets)
                 db.session.add(r)
                 db.session.commit()
-            else:
                 tmp=1
 
-        if tmp==1:
+
+
+        if tmp==0:
             new_record = BLOODBANK(b_group=blood_group, total_packets=int(packets))
             db.session.add(new_record)
             db.session.commit()
