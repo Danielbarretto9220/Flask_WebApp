@@ -215,9 +215,9 @@ def notifications():
 def accept(id):
     c_id = int(id)
     c = CONTACT.query.filter_by(contact_id=c_id).first()
-    records = BLOODBANK.query.all()
+    ra = BLOODBANK.query.all()
     temp = 0
-    for r in records:
+    for r in ra:
         if r.b_group == c.b_group:
             temp=1
             rec = r
