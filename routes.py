@@ -1,5 +1,4 @@
 from flask import render_template, flash, redirect, request, url_for, session, logging
-from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, SelectField
 from passlib.hash import sha256_crypt
 import random
@@ -211,31 +210,43 @@ def notifications():
         msg = ' No requests found '
         return render_template('notification.html',msg=msg)
 
-@app.route('/notifications/accept')
+@app.route('/notifications/accept/<string:id>')
 @is_logged_in
-def accept():
-    # cur = mysql.connection.cursor()
-    # cur.execute("SELECT N_PACKETS FROM NOTIFICATIONS")
-    # packets = cur.fetchone()
-    # packet = (x[0] for x in packets)
-    # cur.execute("SELECT NB_GROUP FROM NOTIFICATIONS")
-    # groups = cur.fetchone()
-    # group = (y[0] for y in groups)
-    #
-    # # for row in allnotifications:
-    # #      group = row[1]
-    # #      packet = row[2]
-    # cur.execute("UPDATE BLOODBANK SET TOTAL_PACKETS = TOTAL_PACKETS-%s WHERE B_GROUP = %s",(packet[-1],group[-1]))
-    # result = "ACCEPTED"
-    # cur.execute("INSERT INTO NOTIFICATIONS(RESULT) VALUES(%s)",(result))
+def accept(id):
+    c_id = int(id)
+    c = CONTACT.query.filter_by(contact_id=c_id).first()
+    records = BLOODBANK.query.all()
+    temp = 0
+    for r in records:
+        if r.b_group == c.b_group:
+            temp=1
+            rec = r
 
 
-    flash('Request Accepted','success')
+
+
+    if temp == 1:
+        rec.total_packets = rec.total_packets - c.c_packets
+        db.session.add(rec)
+        db.session.commit()
+        flash('Request Accepted', 'success')
+        db.session.delete(c)
+        db.session.commit()
+
+    else:
+        flash('Blood Type Not Available', 'warning')
+
+
+
     return redirect(url_for('notifications'))
 
-@app.route('/notifications/decline')
+@app.route('/notifications/decline/<string:id>')
 @is_logged_in
-def decline():
+def decline(id):
+    c_id = int(id)
+    cd = CONTACT.query.filter_by(contact_id=c_id).first()
     msg = 'Request Declined'
     flash(msg,'danger')
+    db.session.delete(cd)
+    db.session.commit()
     return redirect(url_for('notifications'))

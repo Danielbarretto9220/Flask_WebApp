@@ -21,8 +21,8 @@
         <td>{{request.b_group}}</td>
         <td>{{request.c_packets}}</td>
         <td>{{request.address}}</td>
-        <td><a href="notifications/accept" class="btn btn-success">Accept</a></td>
-        <td><a href="notifications/decline" class="btn btn-danger">Decline</a></td>
+        <td><a href="notifications/accept/{{request.contact_id}}" class="btn btn-success">Accept</a></td>
+        <td><a href="notifications/decline/{{request.contact_id}}" class="btn btn-danger">Decline</a></td>
       </tr>
     {% endfor %}
   </table>
